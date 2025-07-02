@@ -71,15 +71,15 @@ class BaselineExistingDevice(Job):
             if not push_result:
                 raise RuntimeError(f"Config push failed for {device.name}.")
 
-            self.logger.info(f"Replacement and config push succeeded for {device.name}")
-            return f"Replacement and config push succeeded for {device.name}"
+            self.logger.info(f"Config push succeeded for {device.name}")
+            return f"Config push succeeded for {device.name}"
 
         except ValueError as e:
             self.logger.critical(f"Input validation error: {e}")
-            return f"Replacement failed: {e}"
+            return f"Config update failed: {e}"
         except RuntimeError as e:
             self.logger.critical(f"Runtime error: {e}")
-            return f"Replacement failed: {e}"
+            return f"Config update failed: {e}"
         except Exception as e:
             self.logger.error(f"Unexpected error: {e}", exc_info=True)
-            return f"Replacement failed due to unexpected error: {e}"
+            return f"Config update failed due to unexpected error: {e}"

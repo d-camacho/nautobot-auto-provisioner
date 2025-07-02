@@ -28,8 +28,8 @@ class BaselineExistingDevice(Job):
     )
 
     class Meta:
-        name = "Baseline Device by pushing updated configs."
-        description = "Use this job to simply push updated configs."
+        name = "Baseline Device"
+        description = "Use this job to push an entire updated configs."
 
     def run(self, device_to_baseline, repo_source, username_secret, password_secret):
         device = device_to_baseline

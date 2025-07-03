@@ -48,6 +48,7 @@ class ConfigPusher:
             return config
         except IOError as e:
             self.logger.error(f"Failed to read config at {self.config_path}: {e}", exc_info=True)
+            self.logger.debug("Check name and location to make sure it matches with the config stored in repo.")
             return None
 
     def push(self) -> bool:

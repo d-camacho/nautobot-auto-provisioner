@@ -14,7 +14,7 @@ This project was inspired after the successful completion of [#100DaysOfNautobot
 
 Auto Provisioner provides three core Nautobot Jobs, each tailored to a specific operational use case.
 
-![Auto Provisioner Jobs](images/all_jobs.png)
+![Auto Provisioner Jobs](https://github.com/d-camacho/nautobot-auto-provisioner/blob/main/docs/images/all_jobs.png)
 
 ---
 
@@ -26,7 +26,7 @@ This plugin addresses the following use cases:
 
 **Baseline Existing Device Job** lets users push an entire configuration to a selected device to restore it to a known-good state. In dynamic environments where changes are made to support temporary operational needs, this job helps eliminate configuration drift by reverting the device to its last-known-good backup stored in the repo.
 
-![Baseline Existing Device](images/baseline_job.png)
+![Baseline Existing Device](https://github.com/d-camacho/nautobot-auto-provisioner/blob/main/docs/images/baseline_job.png)
 
 ### Use Case 2: Baseline Existing Device (from Intended)
 
@@ -36,13 +36,13 @@ The **same job** can also be used to push newly generated **intended configurati
 
 The **Replace Existing Device Job** is designed for situations where hardware must be replaced—whether due to failure, upgrade, or lifecycle refresh. This job retains all existing metadata in Nautobot (like role, location, IP, etc.) and applies it to the new device. It also allows for updates to attributes like device type and serial number, ensuring that your source of truth remains accurate.
 
-![Replace Existing Device](images/replace_existing.png)
+![Replace Existing Device](https://github.com/d-camacho/nautobot-auto-provisioner/blob/main/docs/images/replace_existing.png)
 
 ### Use Case 4: Provision New Device
 
 **Provision New Device Job** enables users to create and provision a completely new device in Nautobot. The job prompts for required metadata (like hostname, IP address, and interface), creates the device object, and then pushes the appropriate configuration from the selected repository.
 
-![Provision New Device](images/provision_new.png)
+![Provision New Device](https://github.com/d-camacho/nautobot-auto-provisioner/blob/main/docs/images/provision_new.png)
 
 
 ---

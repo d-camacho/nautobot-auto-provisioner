@@ -2,20 +2,20 @@ from django.db import transaction
 
 from nautobot.apps.jobs import Job, StringVar, ObjectVar
 from nautobot.dcim.models import Device, DeviceType, Platform
-from nautobot.extras.models import GitRepository, Secret
+from nautobot.extras.models import GitRepository, Secret, SecretsGroup
 
-from nautobot_auto_provisioner.utils import ConfigPusher, GitRepoPathResolver
+from nautobot_auto_provisioner.utils import ConfigPusher, CredentialsHandler, GitRepoPathResolver
 
 name = "Device Auto Provisioning"
 
 class ReplaceExistingDevice(Job):
     device_to_replace = ObjectVar(
         model=Device,
-        description="The device you are replacing"
+        description="Select the device you are replacing"
     )
     replacement_device_type = ObjectVar(
         model=DeviceType,
-        description="New device type. Warning, if new Device Type is different, other parameters must be changed (e.g. platform).",
+        description="New device type. Warning, if new Device Type is different, other parameters might have to change (e.g. platform)",
         required=False
     )
     replacement_platform = ObjectVar(
@@ -32,14 +32,9 @@ class ReplaceExistingDevice(Job):
         description="Select the Git Repo to pull configurations from (e.g. intended_configs or backup_configs)",
         required=True
     )
-    username_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device username.",
-        required=True
-    )
-    password_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device password",
+    secret_group = ObjectVar(
+        model=SecretsGroup,
+        description="Secrets Group with username/password",
         required=True
     )
 
@@ -54,8 +49,7 @@ class ReplaceExistingDevice(Job):
         replacement_platform, 
         serial_number, 
         repo_source, 
-        username_secret, 
-        password_secret
+        secret_group
     ):
         self.logger.info(f"Starting replacement for device: {device_to_replace.name}")
         device = device_to_replace
@@ -90,16 +84,12 @@ class ReplaceExistingDevice(Job):
                 raise RuntimeError("Config path resolution failed.")
 
             # --- Push Configuration ---
-            # Retrieve Secrets
-            username = username_secret.get_value()
-            password = password_secret.get_value()
-
-            if not username:
-                raise ValueError("Username secret is empty.")
-            if not password:
-                raise ValueError("Password secret is empty.")
-            
             self.logger.info(f"Pushing config to device: {device.name}")
+
+            # Retrieve Secrets
+            handler = CredentialsHandler(secret_group, logger=self.logger)
+            username, password = handler.fetch_credentials()
+            
             pusher = ConfigPusher(
                 device=device,
                 config_path=config_file_path,

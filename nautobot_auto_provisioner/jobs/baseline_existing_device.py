@@ -1,50 +1,36 @@
 from nautobot.apps.jobs import Job, ObjectVar
 from nautobot.dcim.models import Device
-from nautobot.extras.models import Secret, GitRepository
+from nautobot.extras.models import Secret, SecretsGroup, GitRepository
 
-from nautobot_auto_provisioner.utils import ConfigPusher, GitRepoPathResolver
+from nautobot_auto_provisioner.utils import ConfigPusher, CredentialsHandler, GitRepoPathResolver 
 
 name = "Device Auto Provisioning"
 
 class BaselineExistingDevice(Job):
     device_to_baseline = ObjectVar(
         model=Device,
-        description="Device to baseline."
+        description="Select device to baseline"
     )
     repo_source = ObjectVar(
         model=GitRepository,
-        description="Select the Git Repo to pull configurations from (e.g. intended_configs or backup_configs).",
+        description="Select the Git Repo to pull configurations from (e.g. intended_configs or backup_configs)",
         required=True
     )
-    username_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device connection username.",
-        required=True
-    )
-    password_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device connection password.",
+    secret_group = ObjectVar(
+        model=SecretsGroup,
+        description="Secrets Group with username/password",
         required=True
     )
 
     class Meta:
         name = "Baseline Device"
-        description = "Use this job to push an entire updated configs."
+        description = "Use this job to push an entire updated configs"
 
-    def run(self, device_to_baseline, repo_source, username_secret, password_secret):
+    def run(self, device_to_baseline, repo_source, secret_group):
         device = device_to_baseline
         self.logger.info(f"Baselining {device.name} configs.")
 
         try:
-            # Retrieve Secrets
-            username = username_secret.get_value()
-            password = password_secret.get_value()
-
-            if not username:
-                raise ValueError("Username secret is empty.")
-            if not password:
-                raise ValueError("Password secret is empty.")            
-
             # --- Resolve Git Repository Path ---
             resolver = GitRepoPathResolver(
                 git_repo_obj=repo_source,
@@ -58,6 +44,11 @@ class BaselineExistingDevice(Job):
 
             # --- Push Configuration ---
             self.logger.info(f"Pushing config to device: {device.name}")
+
+            # Retrieve Secrets
+            handler = CredentialsHandler(secret_group, logger=self.logger)
+            username, password = handler.fetch_credentials()
+
             pusher = ConfigPusher(
                 device=device,
                 config_path=config_file_path,

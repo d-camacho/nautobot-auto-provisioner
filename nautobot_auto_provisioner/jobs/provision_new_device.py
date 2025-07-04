@@ -8,9 +8,9 @@ from nautobot.dcim.models.locations import Location
 from nautobot.extras.models import Status
 from nautobot.ipam.models import IPAddress, Namespace, Prefix
 from nautobot.dcim.models.device_components import Interface
-from nautobot.extras.models import GitRepository, Secret
+from nautobot.extras.models import GitRepository, Secret, SecretsGroup
 
-from nautobot_auto_provisioner.utils import ConfigPusher, GitRepoPathResolver
+from nautobot_auto_provisioner.utils import ConfigPusher, CredentialsHandler, GitRepoPathResolver
 
 
 
@@ -42,22 +42,22 @@ def resolve_interface_name(device, user_input):
 
 class ProvisionNewDevice(Job):
     device_name = StringVar(
-        description="Hostname for the device. Note: Name must match name in repo", 
+        description="Hostname for the device. Entry must match name in repo", 
         required=True
     )
     location = ObjectVar(
         model=Location, 
-        description="Location to assign", 
+        description="Location for new device", 
         required=True
     )
     device_type = ObjectVar(
         model=DeviceType, 
-        description="Device type", 
+        description="Select the device type for new device", 
         required=True
     )
     device_role = ObjectVar(
         model=Role, 
-        description="Device role", 
+        description="Select new device's role", 
         required=True
     )
     platform = ObjectVar(
@@ -73,7 +73,7 @@ class ProvisionNewDevice(Job):
     )
     namespace = ObjectVar(
         model=Namespace,
-        description="Namespace where the IP and Prefix reside.",
+        description="Namespace where the IP and Prefix reside",
         required=True
     )
     serial_number = StringVar(
@@ -85,14 +85,9 @@ class ProvisionNewDevice(Job):
         description="Select the Git Repo to pull configurations from (e.g. intended_configs or backup_configs)",
         required=True
     )
-    username_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device username",
-        required=True
-    )
-    password_secret = ObjectVar(
-        model=Secret,
-        description="Secret containing the device password",
+    secret_group = ObjectVar(
+        model=SecretsGroup,
+        description="Secrets Group with username/password",
         required=True
     )
         
@@ -112,8 +107,7 @@ class ProvisionNewDevice(Job):
             interface_name, 
             namespace,
             repo_source,
-            username_secret,
-            password_secret
+            secret_group
     ):
         try:
             with transaction.atomic():
@@ -195,17 +189,13 @@ class ProvisionNewDevice(Job):
                 if not config_file_path:
                     raise RuntimeError("Config path resolution failed.")
                 
-                # --- Push Configuration ---
-                # Retrieve Secrets
-                username = username_secret.get_value()
-                password = password_secret.get_value()
-
-                if not username:
-                    raise ValueError("Username secret is empty.")
-                if not password:
-                    raise ValueError("Password secret is empty.")
-                
+                # --- Push Configuration ---                
                 self.logger.info(f"Pushing config to device: {device.name}")
+
+                # Retrieve Secrets
+                handler = CredentialsHandler(secret_group, logger=self.logger)
+                username, password = handler.fetch_credentials()
+
                 pusher = ConfigPusher(
                     device=device,
                     config_path=config_file_path,

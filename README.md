@@ -1,66 +1,121 @@
 # Nautobot Auto Provisioner
 
-<!--
-Developer Note - Remove Me!
-
-The README will have certain links/images broken until the PR is merged into `develop`. Update the GitHub links with whichever branch you're using (main etc.) if different.
-
-The logo of the project is a placeholder (docs/images/icon-nautobot-auto-provisioner.png) - please replace it with your app icon, making sure it's at least 200x200px and has a transparent background!
-
-To avoid extra work and temporary links, make sure that publishing docs (or merging a PR) is done at the same time as setting up the docs site on RTD, then test everything.
--->
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nautobot/nautobot-app-auto-provisioner/develop/docs/images/icon-nautobot-auto-provisioner.png" class="logo" height="200px">
-  <br>
-  <a href="https://github.com/nautobot/nautobot-app-auto-provisioner/actions"><img src="https://github.com/nautobot/nautobot-app-auto-provisioner/actions/workflows/ci.yml/badge.svg?branch=main"></a>
-  <a href="https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/"><img src="https://readthedocs.org/projects/nautobot-app-auto-provisioner/badge/"></a>
-  <a href="https://pypi.org/project/nautobot-auto-provisioner/"><img src="https://img.shields.io/pypi/v/nautobot-auto-provisioner"></a>
-  <a href="https://pypi.org/project/nautobot-auto-provisioner/"><img src="https://img.shields.io/pypi/dm/nautobot-auto-provisioner"></a>
+  <img src="https://github.com/d-camacho/testing_readme/blob/main/images/auto_prov_full_logo.png "class="logo" height="200px">
   <br>
   An <a href="https://networktocode.com/nautobot-apps/">App</a> for <a href="https://nautobot.com/">Nautobot</a>.
 </p>
 
 ## Overview
 
-> Developer Note: Add a long (2-3 paragraphs) description of what the App does, what problems it solves, what functionality it adds to Nautobot, what external systems it works with etc.
+**Auto Provisioner** is a Nautobot Plugin that enables you to push configurations to both new and existing devices. You can select a Git repository from Nautobot Git Repositories—currently supported with the backup or intended config repository managed by Golden Config—as the source for your configurations.
 
-### Screenshots
+This project was inspired after the successful completion of [#100DaysOfNautobot](https://go.networktocode.com/100-days-of-nautobot).
 
-> Developer Note: Add any representative screenshots of the App in action. These images should also be added to the `docs/user/app_use_cases.md` section.
+Auto Provisioner provides three core Nautobot Jobs, each tailored to a specific operational use case.
 
-> Developer Note: Place the files in the `docs/images/` folder and link them using only full URLs from GitHub, for example: `![Overview](https://raw.githubusercontent.com/nautobot/nautobot-app-auto-provisioner/develop/docs/images/app-overview.png)`. This absolute static linking is required to ensure the README renders properly in GitHub, the docs site, and any other external sites like PyPI.
+![Auto Provisioner Jobs](images/all_jobs.png)
 
-More screenshots can be found in the [Using the App](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/user/app_use_cases/) page in the documentation. Here's a quick overview of some of the app's added functionality:
+---
 
-![](https://raw.githubusercontent.com/nautobot/nautobot-app-auto-provisioner/develop/docs/images/placeholder.png)
+## Use Cases
 
-## Try it out!
+This plugin addresses the following use cases:
 
-> Developer Note: Only keep this section if appropriate. Update link to correct sandbox.
+### Use Case 1: Baseline Existing Device (from Backup)
 
-This App is installed in the Nautobot Community Sandbox found over at [demo.nautobot.com](https://demo.nautobot.com/)!
+**Baseline Existing Device Job** lets users push an entire configuration to a selected device to restore it to a known-good state. In dynamic environments where changes are made to support temporary operational needs, this job helps eliminate configuration drift by reverting the device to its last-known-good backup stored in the repo.
 
-> For a full list of all the available always-on sandbox environments, head over to the main page on [networktocode.com](https://www.networktocode.com/nautobot/sandbox-environments/).
+![Baseline Existing Device](images/baseline_job.png)
 
-## Documentation
+### Use Case 2: Baseline Existing Device (from Intended)
 
-Full documentation for this App can be found over on the [Nautobot Docs](https://docs.nautobot.com) website:
+The **same job** can also be used to push newly generated **intended configurations**. For example, if your organization rolls out a new security standard or feature update, you can use this job to apply those changes to the device using your intent-based templates from the intended config repository.
 
-- [User Guide](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/user/app_overview/) - Overview, Using the App, Getting Started.
-- [Administrator Guide](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/admin/install/) - How to Install, Configure, Upgrade, or Uninstall the App.
-- [Developer Guide](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/dev/contributing/) - Extending the App, Code Reference, Contribution Guide.
-- [Release Notes / Changelog](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/admin/release_notes/).
-- [Frequently Asked Questions](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/user/faq/).
+### Use Case 3: Replace Existing Device
 
-### Contributing to the Documentation
+The **Replace Existing Device Job** is designed for situations where hardware must be replaced—whether due to failure, upgrade, or lifecycle refresh. This job retains all existing metadata in Nautobot (like role, location, IP, etc.) and applies it to the new device. It also allows for updates to attributes like device type and serial number, ensuring that your source of truth remains accurate.
 
-You can find all the Markdown source for the App documentation under the [`docs`](https://github.com/nautobot/nautobot-app-auto-provisioner/tree/develop/docs) folder in this repository. For simple edits, a Markdown capable editor is sufficient: clone the repository and edit away.
+![Replace Existing Device](images/replace_existing.png)
 
-If you need to view the fully-generated documentation site, you can build it with [MkDocs](https://www.mkdocs.org/). A container hosting the documentation can be started using the `invoke` commands (details in the [Development Environment Guide](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/dev/dev_environment/#docker-development-environment)) on [http://localhost:8001](http://localhost:8001). Using this container, as your changes to the documentation are saved, they will be automatically rebuilt and any pages currently being viewed will be reloaded in your browser.
+### Use Case 4: Provision New Device
 
-Any PRs with fixes or improvements are very welcome!
+**Provision New Device Job** enables users to create and provision a completely new device in Nautobot. The job prompts for required metadata (like hostname, IP address, and interface), creates the device object, and then pushes the appropriate configuration from the selected repository.
 
-## Questions
+![Provision New Device](images/provision_new.png)
 
-For any questions or comments, please check the [FAQ](https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/user/faq/) first. Feel free to also swing by the [Network to Code Slack](https://networktocode.slack.com/) (channel `#nautobot`), sign up [here](http://slack.networktocode.com/) if you don't have an account.
+
+---
+
+## Installing the App in Nautobot
+
+### Prerequisites
+
+1. The app relies on ```nautobot-golden-config``` and its associated dependencies.
+2. It uses Golden Config's ```backup configs``` and ```intended configs``` as Git Repositories in Nautobot.
+3. For help configuring Git Repositories, refer to the [Golden Config Documentation](https://docs.nautobot.com/projects/golden-config/en/latest/admin/install/#app-configuration).
+
+### Install Guide
+
+**Auto Provisioner** is Python package published in [pypi.org/project/nautobot-auto-provisioner](https://pypi.org/project/nautobot-auto-provisioner/).
+
+#### Standard Install (non-Docker)
+
+Install using pip:
+
+```bash
+
+pip install nautobot-auto-provisioner
+```
+
+After installation, **add** the plugin to the ```PLUGINS``` list in your ```nautobot_config.py```:
+
+```python
+PLUGINS = ["nautobot_auto_provisioner"]
+```
+
+Restart the Nautobot service.
+
+To ensure Nautobot Auto Provisioner is automatically reinstalled during upgrades, **append** ```nautobot-auto-provisioner``` to your instance's ```requirements.txt```.
+
+#### Docker Compose Install
+
+Add the plugin to the project dependencies in ```pyproject.toml```
+
+```bash
+poetry add nautobot-auto-provisioner
+```
+
+Regenerate and lock dependencies:
+
+```bash
+poetry lock
+poetry install
+```
+
+Update the Docker image:
+
+```bash
+invoke build
+```
+
+Start Nautobot:
+```bash
+invoke start
+```
+Or if you prefer debug mode:
+```bash
+invoke debug
+```
+
+Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
+
+```python
+PLUGINS = ["nautobot_auto_provisioner"]
+```
+
+## Feedback
+
+All feedbacks are welcome! This project began as part of a Nautobot learning journey and demonstrates key concepts like Nautobot Job creation, class-based approach, and plugin development. Open a topic under **Discussion** to share your ideas or ask questions.
+
+Let's learn Nautobot together!

@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "nautobot-auto-provisioner"
-version = "0.1.0"
+version = "1.0.0"
 description = "Nautobot Auto Provisioner"
 authors = ["Dwayne Camacho <dwayne.a.camacho@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
-homepage = "https://github.com/nautobot/nautobot-app-auto-provisioner"
-repository = "https://github.com/nautobot/nautobot-app-auto-provisioner"
+homepage = "https://github.com/d-camacho/nautobot-auto-provisioner"
+repository = "https://github.com/d-camacho/nautobot-auto-provisioner"
 documentation = "https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/"
 keywords = ["nautobot", "nautobot-app", "nautobot-plugin"]
 classifiers = [

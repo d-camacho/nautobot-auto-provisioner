@@ -20,6 +20,10 @@ Auto Provisioner provides three core Nautobot Jobs, each tailored to a specific 
 
 ## Use Cases
 
+> [!IMPORTANT] For all use cases, it is assumed that **Nautobot has IP connectivity with the target device** being provisioned. Ensure devices are reachable before running any jobs.
+
+> [!TIP] 
+When provisioning new devices, consider using technologies such as DMVPN, DHCP reservations, or similar solutions to establish initial connectivity with minimal configuration. Once basic reachability is in place, Auto Provisioner can handle the rest.
 This plugin addresses the following use cases:
 
 ### Use Case 1: Baseline Existing Device (from Backup)
@@ -113,6 +117,13 @@ Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
 ```python
 PLUGINS = ["nautobot_auto_provisioner"]
 ```
+
+## Future Updates
+
+1. Future versions will support user defined Git Repos to decouple from Golden Config's backup and intended configs for greater fexibility. This will allow users who already have a different proces for backups or generating intended configs.
+
+2. Wider support for credentials used to connect to devices. Currently, credentials are based on Nautobot's Secret Group but future iterations may support other methods.
+
 
 ## Feedback
 

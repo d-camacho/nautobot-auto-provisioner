@@ -53,6 +53,21 @@ The **Replace Existing Device Job** is designed for situations where hardware mu
 
 ---
 
+## Supported Platforms
+
+Auto Provisioner leverages **Netmiko's** multi-vendor library to simplify SSH connections to network devices. Below is a list of commonly supported platforms. Checkout [Kirk Byers' GitHub Site](https://ktbyers.github.io/netmiko/PLATFORMS.html) for the comprehensive list. 
+
+* Arista vEOS
+* Cisco IOS
+* Cisco IOS-XE
+* Cisco IOS-XR
+* Cisco NX-OS
+* Cisco SG300
+* Juniper Junos
+* Linux
+
+---
+
 ## Installing the App in Nautobot
 
 ### Prerequisites
@@ -120,12 +135,15 @@ Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
 PLUGINS = ["nautobot_auto_provisioner"]
 ```
 
+---
+
 ## Future Updates
 
 1. Future versions will support user defined Git Repos to decouple from Golden Config's backup and intended configs for greater fexibility. This will allow users who already have a different proces for backups or generating intended configs.
 
 2. Wider support for credentials used to connect to devices. Currently, credentials are based on Nautobot's Secret Group but future iterations may support other methods.
 
+---
 
 ## Feedback
 

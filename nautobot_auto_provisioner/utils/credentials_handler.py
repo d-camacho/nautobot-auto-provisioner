@@ -1,5 +1,5 @@
 from nautobot.extras.models import SecretsGroup
-from nautobot.extras.secrets.exceptions import SecretError
+from nautobot.extras.choices import SecretsGroupSecretTypeChoices
 
 class CredentialsHandler:
     def __init__(self, secrets_group, logger=None, obj=None):
@@ -10,15 +10,21 @@ class CredentialsHandler:
         self.password = None
 
     def fetch_credentials(self):
-        try:
-            self.username = self.secrets_group.get_secret_value("Generic", "username", obj=self.obj)
-            self.password = self.secrets_group.get_secret_value("Generic", "password", obj=self.obj)
-        except SecretError as e:
-            if self.logger:
-                self.logger.critical(f"Error retrieving secrets: {e}")
-            raise
+        username = None
+        password = None
 
-        if not self.username or not self.password:
-            raise ValueError("Username or password is empty.")
+        for assoc in self.secrets_group.secrets.through.objects.filter(secrets_group=self.secrets_group):
+            if assoc.secret_type == SecretsGroupSecretTypeChoices.TYPE_USERNAME and not username:
+                username = assoc.secret.get_value(obj=self.obj)
+            elif assoc.secret_type == SecretsGroupSecretTypeChoices.TYPE_PASSWORD and not password:
+                password = assoc.secret.get_value(obj=self.obj)
+
+        if not username or not password:
+            raise ValueError(
+                f"SecretsGroup '{self.secrets_group.name}' must include both a username and password secret."
+            )
+
+        self.username = username
+        self.password = password
 
         return self.username, self.password

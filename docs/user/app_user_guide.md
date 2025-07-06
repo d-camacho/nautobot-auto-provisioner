@@ -1,4 +1,4 @@
-# 🚀 Getting Started
+# Getting Started
 
 This document provides additional guidance and troubleshooting tips for using the **Auto Provisioner** Nautobot App.
 
@@ -19,16 +19,16 @@ To install the app, please follow the instructions detailed in the [Installation
 
 Use this job to push a full configuration to an existing device.  
 This can pull either from:
-- 🔹 **Backup Config Repo** – to revert a device to its last-known-good state
-- 🔹 **Intended Config Repo** – to apply new enterprise-wide updates or changes
+- **Backup Config Repo** – to revert a device to its last-known-good state
+- **Intended Config Repo** – to apply new enterprise-wide updates or changes
 
 ---
 
-### 🔧 Replace Existing Device
+### Replace Existing Device
 
 Use when replacing hardware while retaining all device metadata.  
-The job:
-- Preserves role, location, IPs, etc. that are easily transferred to the new device. 
+
+- Preserves role, location, IPs, etc. and transfers to the new device. 
 - Prompts for optional updates (e.g. serial number). Although not required to run the job, these fields are offered to ensure accuracy of data stored in Nautobot. 
 
 ---

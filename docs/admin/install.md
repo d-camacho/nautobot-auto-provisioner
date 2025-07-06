@@ -2,28 +2,24 @@
 
 Here you will find detailed instructions on how to **install** and **configure** the App within your Nautobot environment.
 
-!!! warning "Developer Note - Remove Me!"
-    Detailed instructions on installing the App. You will need to update this section based on any additional dependencies or prerequisites.
+---
 
 ## Prerequisites
 
-- The app is compatible with Nautobot 2.3.2 and higher.
-- Databases supported: PostgreSQL, MySQL
+1. The app relies on ```nautobot-golden-config``` and its associated dependencies.
+2. It uses Golden Config's ```backup configs``` and ```intended configs``` as Git Repositories in Nautobot.
+3. For help configuring these repositories, refer to the [Golden Config Documentation](https://docs.nautobot.com/projects/golden-config/en/latest/admin/install/#app-configuration).
+4. The app is compatible with Nautobot 2.3.2 and higher and supports PostgreSQL and MySQL. Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
 
-!!! note
-    Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
+---
 
-### Access Requirements
+## Installation Guide
 
-!!! warning "Developer Note - Remove Me!"
-    What external systems (if any) it needs access to in order to work.
+**Auto Provisioner** can be installed from the [Python Package Index](https://pypi.org/) or locally. See the [Nautobot documentation](https://docs.nautobot.com/projects/core/en/stable/user-guide/administration/installation/app-install/) for more details. The pip package name for this app is [`nautobot-auto-provisioner`](https://pypi.org/project/nautobot-auto-provisioner/).
 
-## Install Guide
+#### Standard Install (non-Docker)
 
-!!! note
-    Apps can be installed from the [Python Package Index](https://pypi.org/) or locally. See the [Nautobot documentation](https://docs.nautobot.com/projects/core/en/stable/user-guide/administration/installation/app-install/) for more details. The pip package name for this app is [`nautobot-auto-provisioner`](https://pypi.org/project/nautobot-auto-provisioner/).
-
-The app is available as a Python package via PyPI and can be installed with `pip`:
+Install using pip:
 
 ```shell
 pip install nautobot-auto-provisioner
@@ -67,15 +63,59 @@ Then restart (if necessary) the Nautobot services which may include:
 sudo systemctl restart nautobot nautobot-worker nautobot-scheduler
 ```
 
+#### Docker Compose Install
+
+Follow these steps if you deploy your Nautobot instance uing Docker Compose:
+
+Add the plugin to the project dependencies in ```pyproject.toml```
+
+```bash
+poetry add nautobot-auto-provisioner
+```
+
+Regenerate and lock dependencies:
+
+```bash
+poetry lock
+poetry install
+```
+
+Update the Docker image:
+
+```bash
+invoke build
+```
+
+Start Nautobot:
+```bash
+invoke start
+```
+Or if you prefer debug mode:
+```bash
+invoke debug
+```
+
+Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
+
+```python
+PLUGINS = ["nautobot_auto_provisioner"]
+
+# PLUGINS_CONFIG = {
+#   "nautobot_auto_provisioner": {
+#     ADD YOUR SETTINGS HERE
+#   }
+# }
+```
+
 ## App Configuration
 
-!!! warning "Developer Note - Remove Me!"
-    Any configuration required to get the App set up. Edit the table below as per the examples provided.
+Current version does not require any additiona configurations.
 
-The app behavior can be controlled with the following list of settings:
 
-| Key     | Example | Default | Description                          |
-| ------- | ------ | -------- | ------------------------------------- |
-| `enable_backup` | `True` | `True` | A boolean to represent whether or not to run backup configurations within the app. |
-| `platform_slug_map` | `{"cisco_wlc": "cisco_aireos"}` | `None` | A dictionary in which the key is the platform slug and the value is what netutils uses in any "network_os" parameter. |
-| `per_feature_bar_width` | `0.15` | `0.15` | The width of the table bar within the overview report |
+
+
+
+
+
+
+

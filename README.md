@@ -26,7 +26,7 @@ For all use cases, it is assumed that **Nautobot has IP connectivity with the ta
 > [!TIP] 
 When provisioning new devices, consider using technologies such as DMVPN, DHCP reservations, or similar solutions to establish initial connectivity with minimal configuration. Once basic reachability is in place, Auto Provisioner can handle the rest.
 
-This plugin addresses the following use cases:
+### This plugin addresses the following use cases:
 
 ### Use Case 1: Baseline Existing Device (from Backup)
 
@@ -66,78 +66,28 @@ Auto Provisioner leverages **Netmiko's** multi-vendor library to simplify SSH co
 * Juniper Junos
 * Linux
 
+
+## How To Use the App
+
+Using the the app is just as easy as running any other Nautobot Jobs! Just pick the right job for your use case.
+
+For additional info and troubleshooting tips, check out the [Auto Provisioner User Guide](docs/user/app_user_guide.md).
+
 ---
 
 ## Installing the App in Nautobot
 
-### Prerequisites
-
-1. The app relies on ```nautobot-golden-config``` and its associated dependencies.
-2. It uses Golden Config's ```backup configs``` and ```intended configs``` as Git Repositories in Nautobot.
-3. For help configuring Git Repositories, refer to the [Golden Config Documentation](https://docs.nautobot.com/projects/golden-config/en/latest/admin/install/#app-configuration).
-
-### Install Guide
-
-**Auto Provisioner** is Python package published in [pypi.org/project/nautobot-auto-provisioner](https://pypi.org/project/nautobot-auto-provisioner/).
-
-#### Standard Install (non-Docker)
-
-Install using pip:
+**Auto Provisioner** is Python package published in [pypi.org/project/nautobot-auto-provisioner](https://pypi.org/project/nautobot-auto-provisioner/) and can be installed using:
 
 ```bash
-
 pip install nautobot-auto-provisioner
 ```
 
-After installation, **add** the plugin to the ```PLUGINS``` list in your ```nautobot_config.py```:
-
-```python
-PLUGINS = ["nautobot_auto_provisioner"]
-```
-
-Restart the Nautobot service.
-
-To ensure Nautobot Auto Provisioner is automatically reinstalled during upgrades, **append** ```nautobot-auto-provisioner``` to your instance's ```requirements.txt```.
-
-#### Docker Compose Install
-
-Add the plugin to the project dependencies in ```pyproject.toml```
-
-```bash
-poetry add nautobot-auto-provisioner
-```
-
-Regenerate and lock dependencies:
-
-```bash
-poetry lock
-poetry install
-```
-
-Update the Docker image:
-
-```bash
-invoke build
-```
-
-Start Nautobot:
-```bash
-invoke start
-```
-Or if you prefer debug mode:
-```bash
-invoke debug
-```
-
-Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
-
-```python
-PLUGINS = ["nautobot_auto_provisioner"]
-```
+Please checkout the [full installation guide](docs/admin/install.md).
 
 ---
 
-## Future Updates
+## Planned Future Updates
 
 1. Future versions will support user defined Git Repos to decouple from Golden Config's backup and intended configs for greater fexibility. This will allow users who already have a different proces for backups or generating intended configs.
 

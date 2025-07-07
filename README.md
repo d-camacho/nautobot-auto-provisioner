@@ -83,7 +83,7 @@ For additional info and troubleshooting tips, check out the [Auto Provisioner Us
 pip install nautobot-auto-provisioner
 ```
 
-Please checkout the [full installation guide](docs/admin/install.md).
+Please checkout the [full installation guide](docs/admin/install.md) for more detailed steps.
 
 ---
 

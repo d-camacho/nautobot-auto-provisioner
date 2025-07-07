@@ -60,7 +60,7 @@ Each Secrets Group should include:
 
 | Error Message | Description | Suggested Fix |
 |---------------|-------------|----------------|
-| `Config path resolution failed` | Config file not found in Git repo | Verify the repo name and filename matches device location and name |
+| `Error resolving Git repo path` | Couldn't match the filesystem path based on provided info e.g. repo, hostname, or location. | GitRepoPathResolver combines base repo path and the selected device in this example format: "intended_configs": "{{obj.location.name}}/{{obj.name}}.intended_cfg" to find the exact path. Double check location and name stored in the repo to make sure it matches entry in Nautobot. |
 | `Secret retrieval failed` | Misconfigured or missing Secrets Group | Ensure your Secrets Group contains both username and password |
 | `Authentication Failed` | Possible mismatch of credentials stored in Secrets Group and the device itself | Verify that credentials match |
 | `Device unreachable` | Nautobot can’t connect to the device | Verify IP, interface assignment, and routing between Nautobot and device |

@@ -66,13 +66,6 @@ Auto Provisioner leverages **Netmiko's** multi-vendor library to simplify SSH co
 * Juniper Junos
 * Linux
 
-
-## How To Use the App
-
-Using the the app is just as easy as running any other Nautobot Jobs! Just pick the right job for your use case.
-
-For additional info and troubleshooting tips, check out the [Auto Provisioner User Guide](docs/user/app_user_guide.md).
-
 ---
 
 ## Installing the App in Nautobot
@@ -84,6 +77,14 @@ pip install nautobot-auto-provisioner
 ```
 
 Please checkout the [full installation guide](docs/admin/install.md) for more detailed steps.
+
+---
+
+## How To Use the App
+
+Using the the app is just as easy as running any other Nautobot Jobs! Just pick the right job for your use case.
+
+For additional info and troubleshooting tips, check out the [Auto Provisioner User Guide](docs/user/app_user_guide.md).
 
 ---
 

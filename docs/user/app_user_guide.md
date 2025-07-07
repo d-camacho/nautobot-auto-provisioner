@@ -60,8 +60,8 @@ Each Secrets Group should include:
 
 | Error Message | Description | Suggested Fix |
 |---------------|-------------|----------------|
-| `Error resolving Git repo path` | Couldn't match the filesystem path based on provided info e.g. repo, hostname, or location. | GitRepoPathResolver combines base repo path and the selected device in this example format: "intended_configs": "{{obj.location.name}}/{{obj.name}}.intended_cfg" to find the exact path. Double check location and name stored in the repo to make sure it matches entry in Nautobot. |
-| `Secret retrieval failed` | Misconfigured or missing Secrets Group | Ensure your Secrets Group contains both username and password |
-| `Authentication Failed` | Possible mismatch of credentials stored in Secrets Group and the device itself | Verify that credentials match |
+| `Error resolving Git repo path` | Couldn't match the filesystem path based on provided info e.g. repo, hostname, location, and file name. | GitRepoPathResolver combines base repo path and selected device to find the exact path in this example format: "/opt/nautobot/git/intended_configs/" + "{{obj.location.name}}/{{obj.name}}".intended_cfg. Double check location and name stored in the repo to make sure it matches entry in Nautobot. |
+| `Secret must included both username and password.` | Misconfigured or missing element in Secrets Group | Ensure your Secrets Group contains both username and password |
+| `Authentication Failed` | Possible mismatch of credentials stored in Secrets Group and the device itself | Verify that credentials match. Double check the secret_type as well e.g. "Generic", "SSH", etc. |
 | `Device unreachable` | Nautobot can’t connect to the device | Verify IP, interface assignment, and routing between Nautobot and device |
 | `Interface not found` | Interface name doesn't match Nautobot object | Use full or abbreviated name (e.g., `Gig0/0` or `GigabitEthernet0/0`) correctly |

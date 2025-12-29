@@ -42,7 +42,7 @@ You’ll provide:
 - Git repository to pull config from
 
 > [!TIP]  
-> To simplify provisioning, consider using technologies like **DHCP reservations**, **zero-touch provisioning**, or **DMVPN** to establish initial IP connectivity. Let Auto Provisioner handle the rest.
+> To simplify provisioning, consider using technologies like **DHCP reservations** or **DMVPN** to establish initial IP connectivity. Let Auto Provisioner handle the rest.
 
 ---
 

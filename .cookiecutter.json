@@ -8,22 +8,23 @@
         "verbose_name": "Nautobot Auto Provisioner",
         "app_slug": "nautobot-auto-provisioner",
         "project_slug": "nautobot-app-auto-provisioner",
-        "repo_url": "https://github.com/d-camacho/nautobot-auto-provisioner",
-        "base_url": "https://github.com/d-camacho/nautobot-auto-provisioner",
+        "repo_url": "https://github.com/nautobot/nautobot-app-auto-provisioner",
+        "base_url": "auto-provisioner",
+        "min_nautobot_version": "2.3.2",
+        "max_nautobot_version": "2.9999",
         "camel_name": "NautobotAutoProvisioner",
-        "project_short_description": "Easily provision new or existing devices to a pre-defined intended configurations.",
+        "project_short_description": "Nautobot Auto Provisioner",
         "model_class_name": "None",
         "open_source_license": "Apache-2.0",
         "docs_base_url": "https://docs.nautobot.com",
         "docs_app_url": "https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest",
         "_extensions": [
             "local_extensions.camel_case_to_kebab",
-            "local_extensions.camel_case_to_words",
-            "local_extensions.NautobotVersions"
+            "local_extensions.camel_case_to_words"
         ],
         "_template": "https://github.com/nautobot/cookiecutter-nautobot-app.git",
-        "_output_dir": "/home/clab_admin/Nautobot",
-        "_repo_dir": "/home/clab_admin/.cookiecutters/cookiecutter-nautobot-app/nautobot-app",
+        "_output_dir": "/home/dwaynec/Nautobot/nautobot-docker-compose",
+        "_repo_dir": "/home/dwaynec/.cookiecutters/cookiecutter-nautobot-app/nautobot-app",
         "_checkout": null
     }
 }

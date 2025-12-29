@@ -1,9 +1,9 @@
 ---
 nautobot_auto_provisioner:
   project_name: "nautobot-auto-provisioner"
-  nautobot_ver: "3.0.0"
+  nautobot_ver: "2.3.2"
   local: false
-  python_ver: "3.12"
+  python_ver: "3.11"
   compose_dir: "development"
   compose_files:
     - "docker-compose.base.yml"

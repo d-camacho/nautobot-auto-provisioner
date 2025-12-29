@@ -6,10 +6,10 @@ Here you will find detailed instructions on how to **install** and **configure**
 
 ## Prerequisites
 
-1. The app relies on ```nautobot_golden_config``` and its associated dependencies i.e. ```nautobot_plugin_nornir```.
+1. The app relies on ```nautobot-golden-config``` and its associated dependencies.
 2. It uses Golden Config's ```backup configs``` and ```intended configs``` as Git Repositories in Nautobot.
 3. For help configuring these repositories, refer to the [Golden Config Documentation](https://docs.nautobot.com/projects/golden-config/en/latest/admin/install/#app-configuration).
-4. The app is compatible with Nautobot 3.0 and higher and supports PostgreSQL and MySQL. Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
+4. The app is compatible with Nautobot 2.3.2 and higher and supports PostgreSQL and MySQL. Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
 
 ---
 

@@ -15,14 +15,12 @@ class NautobotAutoProvisionerConfig(NautobotAppConfig):
     verbose_name = "Nautobot Auto Provisioner"
     version = __version__
     author = "Dwayne Camacho"
-    description = "Nautobot Auto Provisioner."
-    base_url = "auto-provisioner"
+    description = "Easily provision new or existing devices based on pre-defined intended configurations."
+    base_url = "https://github.com/d-camacho/nautobot-auto-provisioner"
     required_settings = []
-    min_version = "2.3.2"
-    max_version = "2.9999"
     default_settings = {}
-    caching_config = {}
     docs_view_name = "plugins:nautobot_auto_provisioner:docs"
+    searchable_models = []
 
 
 config = NautobotAutoProvisionerConfig  # pylint:disable=invalid-name

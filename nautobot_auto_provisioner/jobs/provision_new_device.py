@@ -225,7 +225,7 @@ class ProvisionNewDevice(Job):
         except Exception as e:
             self.logger.error(f"Failed to resolve Git repo path: {e}")
             return f"Failed during repo path resolution: {e}"
-
+        
         
         
 

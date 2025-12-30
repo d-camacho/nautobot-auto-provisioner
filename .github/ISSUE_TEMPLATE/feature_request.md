@@ -6,7 +6,7 @@ labels:
 ---
 
 ### Environment
-* Nautobot version:  <!-- Example: 2.3.2 -->
+* Nautobot version:  <!-- Example: 3.0.0 -->
 * nautobot-auto-provisioner version:  <!-- Example: 1.0.0 -->
 
 <!--

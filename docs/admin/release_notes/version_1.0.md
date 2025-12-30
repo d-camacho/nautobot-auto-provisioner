@@ -13,6 +13,10 @@ This document describes all new features and changes in the release `1.0`. The f
 - **Expanded Credential Support**: While current versions use Nautobot’s Secrets Groups for device authentication, future versions will support additional credential sources and access methods for broader compatibility.
 
 ---
+## [2.0.0] - 2025-12-29
+
+### Changed
+- Updated to work with Nautobot v3.X
 
 ## [1.1.1] - 2025-07-05
 

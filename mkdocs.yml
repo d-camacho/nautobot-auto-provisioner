@@ -4,7 +4,7 @@ edit_uri: "edit/main/docs"
 site_dir: "nautobot_auto_provisioner/static/nautobot_auto_provisioner/docs"
 site_name: "Nautobot Auto Provisioner Documentation"
 site_url: "https://docs.nautobot.com/projects/nautobot-auto-provisioner/en/latest/"
-repo_url: "https://github.com/nautobot/nautobot-app-auto-provisioner"
+repo_url: "https://github.com/d-camacho/nautobot-auto-provisioner"
 copyright: "Copyright &copy; The Authors"
 theme:
   name: "material"
@@ -73,6 +73,7 @@ markdown_extensions:
       permalink: true
   - "attr_list"
   - "md_in_html"
+  - "pymdownx.details"
   - "pymdownx.highlight":
       anchor_linenums: true
   - "pymdownx.inlinehilite"

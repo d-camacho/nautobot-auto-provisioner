@@ -6,10 +6,10 @@ Here you will find detailed instructions on how to **install** and **configure**
 
 ## Prerequisites
 
-1. The app relies on ```nautobot-golden-config``` and its associated dependencies.
+1. The app relies on ```nautobot_golden_config``` and its associated dependencies such as ```nautobot_plugin_nornir```.
 2. It uses Golden Config's ```backup configs``` and ```intended configs``` as Git Repositories in Nautobot.
 3. For help configuring these repositories, refer to the [Golden Config Documentation](https://docs.nautobot.com/projects/golden-config/en/latest/admin/install/#app-configuration).
-4. The app is compatible with Nautobot 2.3.2 and higher and supports PostgreSQL and MySQL. Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
+4. The app is compatible with Nautobot 3.0 and higher and supports PostgreSQL and MySQL. Please check the [dedicated page](compatibility_matrix.md) for a full compatibility matrix and the deprecation policy.
 
 ---
 
@@ -65,7 +65,7 @@ sudo systemctl restart nautobot nautobot-worker nautobot-scheduler
 
 #### Docker Compose Install
 
-Follow these steps if you deploy your Nautobot instance uing Docker Compose:
+Follow these steps if you deploy your Nautobot instance using Docker Compose:
 
 Add the plugin to the project dependencies in ```pyproject.toml```
 
@@ -83,16 +83,16 @@ poetry install
 Update the Docker image:
 
 ```bash
-invoke build
+poetry run invoke build
 ```
 
 Start Nautobot:
 ```bash
-invoke start
+poetry run invoke start
 ```
 Or if you prefer debug mode:
 ```bash
-invoke debug
+poetry run invoke debug
 ```
 
 Be sure to **update** the ```PLUGINS``` list in your ```nautobot_config.py```:
@@ -109,7 +109,7 @@ PLUGINS = ["nautobot_auto_provisioner"]
 
 ## App Configuration
 
-Current version does not require any additiona configurations.
+Current version does not require any additional configurations.
 
 
 

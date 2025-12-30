@@ -1,4 +1,3 @@
-# cat __init__.py 
 from nautobot.apps.jobs import register_jobs
 from .baseline_existing_device import BaselineExistingDevice
 from .replace_existing_device import ReplaceExistingDevice

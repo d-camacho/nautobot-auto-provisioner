@@ -13,11 +13,8 @@ from nautobot.extras.models import GitRepository, Secret, SecretsGroup
 from nautobot_auto_provisioner.utils import ConfigPusher, CredentialsHandler, GitRepoPathResolver
 
 
-
-
 name = "Device Auto Provisioning"
 
-ACTIVE_STATUS = Status.objects.get(name="Active")
 
 def resolve_interface_name(device, user_input):
     shorthand_map = {
@@ -111,6 +108,7 @@ class ProvisionNewDevice(Job):
     ):
         try:
             with transaction.atomic():
+                active_status = Status.objects.get(name="Active")
                 if Device.objects.filter(name=device_name).exists():
                     self.logger.error(f"Device {device_name} already exists. Please use 'Replace Existing Device' job.")
                     return f"Device {device_name} already exists."
@@ -123,7 +121,7 @@ class ProvisionNewDevice(Job):
                         device_type=device_type,
                         role=device_role,
                         platform=platform,
-                        status=ACTIVE_STATUS,
+                        status=active_status,
                         serial=serial_number
                     )
                     device.validated_save()            
@@ -153,7 +151,7 @@ class ProvisionNewDevice(Job):
                     ip_address_obj = IPAddress.objects.create(
                         address=str(ip_net),
                         parent=parent_prefix,
-                        status=ACTIVE_STATUS,
+                        status=active_status,
                     )
                     ip_address_obj.validated_save()
                     self.logger.info(f"Created IP {ip_address_obj.address} under {namespace}.")
